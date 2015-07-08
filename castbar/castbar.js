@@ -155,6 +155,15 @@
         }
     }
 
+    function GetData()
+    {
+        $.getJSON('http://grim.cloudapp.net/HelloWorld/').then(function (data) {
+            log('Your Json result is:  ' + data);
+        });
+
+        return 'TODO: get data';
+    }
+
 
     var casting = function () {
 
@@ -165,15 +174,8 @@
             clearInterval(animate);
             animate = null;
 
-            logAbil(currentAbility);
-            log('**currentAbility.stats:**')
-            logAbil(currentAbility.stats);
-            log('**currentAbility.rootComponentSlot:**')
-            logAbil(currentAbility.rootComponentSlot);
-            //log('**currentAbility.rootComponentSlot.children:**')
-            //logAbil(currentAbility.rootComponentSlot.children);
-            //log('**currentAbility.rootComponentSlot.children[0]:**')
-            //logAbil(currentAbility.rootComponentSlot.children[0]);
+            log('*****************************************************')
+            log(JSON.stringify(currentAbility, null, '\t'));
             
             //regressionDuration = currentAbility.duration;
             regressionDuration = currentAbility.stats['recoveryTime'];            
@@ -183,8 +185,14 @@
             log('\r\n\r\n*****Start new focusing interval*****    ID:' + currentAbility.id);
             var baseCmpId = -2;
             if ('000000000000001f' != currentAbility.id) { //bandage special case...
+                //baseCmpId = currentAbility.rootComponentSlot.children[0].baseComponentID;
+                //baseCmpId = currentAbility.rootComponentSlot.baseComponentID;
                 baseCmpId = currentAbility.rootComponentSlot.children[0].baseComponentID;
             }
+
+            log('\r\n\r\nbaseCmpId: ' + baseCmpId);
+
+            log('request test: ' + GetData());
 
             //var barClass = GetBarClass(baseCmpId)
             //log('barclass: ' + barClass);
@@ -196,6 +204,7 @@
             //    background: "-webkit-linear-gradient(45deg, rgba(0,20,26,1) 1%,rgba(1,158,255,1) 41%,rgba(57,100,255,1) 100%)"
             //});
 
+            //TODO: pass in entire ability so we can scan the components
             SetBarStyle(baseCmpId);
 
             animate = setInterval(function () {
